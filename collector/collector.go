@@ -52,6 +52,10 @@ func (collector *Collector) Collect(ch chan<- prometheus.Metric) {
 			mac = "none"
 		}
 
+		if ipv4 == "none" && ipv6 == "none" {
+			continue
+		}
+
 		ch <- prometheus.MustNewConstMetric(collector.NetInfo, prometheus.GaugeValue, 1,
 			net.Name, mac, ipv4, ipv6, strconv.FormatBool(net.IsLoopback), strconv.FormatBool(net.IsPrivate))
 	}

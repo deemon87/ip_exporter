@@ -78,7 +78,7 @@ func getIpv6(netAddress []net.Addr) ([]string, bool, bool) {
 			isLinkLocalUnicast = ip.IsLinkLocalUnicast()
 			ipv6 := ip.String()
 			if isLinkLocalUnicast {
-				ipv6 = ""
+				continue
 			}
 
 			listIpv6 = append(listIpv6, ipv6)
