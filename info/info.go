@@ -63,6 +63,7 @@ func getIpv4(netAddress []net.Addr) ([]string, bool, bool) {
 func getIpv6(netAddress []net.Addr) ([]string, bool, bool) {
 	var isPrivate bool
 	var isLoopback bool
+	var isLinkLocalUnicast bool
 
 	listIpv6 := []string{}
 	for _, nAdd := range netAddress {
@@ -74,7 +75,13 @@ func getIpv6(netAddress []net.Addr) ([]string, bool, bool) {
 		if ip.To4() == nil && ip.To16() != nil {
 			isLoopback = ip.IsLoopback()
 			isPrivate = checkPrivate(ip)
-			listIpv6 = append(listIpv6, ip.String())
+			isLinkLocalUnicast = ip.IsLinkLocalUnicast()
+			ipv6 := ip.String()
+			if isLinkLocalUnicast {
+				ipv6 = ""
+			}
+
+			listIpv6 = append(listIpv6, ipv6)
 		}
 	}
 	return listIpv6, isPrivate, isLoopback
