@@ -1,0 +1,1 @@
+module github.com/deemon87/ip_exporter/info
